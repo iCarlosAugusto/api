@@ -28,20 +28,20 @@ jobs:
               run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
 
             - name: Build docker image
-              run: docker build -t augustod3v/api-ec2 .
+              run: docker build -t augustod3v/pdtest-api .
             
             - name: Push image to Dockerhub
-              run: docker push augustod3v/api-ec2 
+              run: docker push augustod3v/pdtest-api 
 
     build-on-aws:
         needs: build
         runs-on: self-hosted
         steps: 
           - name: Pull Image from Docker
-            run: sudo docker pull augustod3v/api-ec2:latest
+            run: sudo docker pull augustod3v/pdtest-api:latest
 
           - name: Remove docker container
-            run: sudo docker rm -f api-ec2
+            run: sudo docker rm -f pdtest-api
 
           - name: Run Docker container
-            run: sudo docker run -d -p 3000:3000 --name api-ec2 augustod3v/api-ec2
+            run: sudo docker run -d -p 3000:3000 --name pdtest-api augustod3v/pdtest-api
